@@ -38,6 +38,9 @@ def authorize
   oauth
 end
 
+ARGV.size > 0 or raise "pass quickAdd string on command line"
+quick_add = ARGV.join(' ')
+
 client = Google::APIClient.new(application_name: APPLICATION_NAME)
 calendar_api = client.discovered_api('calendar', 'v3')
 client.authorization = authorize
@@ -47,7 +50,7 @@ results = client.execute!(
   api_method:  calendar_api.events.quick_add,
   parameters:  {
     calendarId: "primary",
-    text:       "Dinner with Sarah tomorrow at 7:00 pm"
+    text:       quick_add
   }
 )
 
